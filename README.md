@@ -1,31 +1,86 @@
-SDN ARP Handler - Project 6
+# ARP Handling in SDN using POX Controller
 
-Problem Statement In traditional networking, switches broadcast ARP requests to all ports, which can lead to unnecessary traffic. This project implements an SDN-based ARP Proxy using the POX controller. The controller intercepts ARP requests, learns host locations (IP-to-MAC mappings), and generates ARP replies directly, reducing broadcast traffic and validating secure communication within a Mininet topology.
+##  Objective
 
-Setup and Execution Steps This project was developed on a Dell laptop server running Ubuntu on Windows.
+To implement ARP request and reply handling using an SDN controller by intercepting ARP packets, generating responses, enabling host discovery, and validating communication.
 
-Prerequisites Mininet: Network emulator.
+---
 
-POX Controller: Python-based SDN controller (Source-based installation used for Python 3.12 compatibility).
+##  Tools Used
 
-Execution Start the Controller: Navigate to the pox directory and run the custom handler:
+* Mininet
+* POX Controller
+* OpenFlow
 
-Bash python3 pox.py arp_handler Start the Topology: In a separate terminal, create a single switch topology with 3 hosts:
+---
 
-Bash sudo mn --topo single,3 --controller remote,ip=127.0.0.1 --mac 3. SDN Logic & Implementation The controller logic handles PacketIn events using a match-action approach:
+## 🧠 Project Description
 
-Match: Incoming packets are parsed to identify ARP types.
+In traditional networks, ARP requests are broadcast.
+In this project, the SDN controller handles ARP centrally.
 
-Action (Learning): The controller extracts the source IP and MAC to populate an internal arp_table.
+The controller:
 
-Action (Proxying): If the destination IP is known, the controller constructs a pkt.arp.REPLY and wraps it in an Ethernet frame using ofp_packet_out to send back to the requester.
+* Intercepts ARP packets (Packet-In)
+* Learns IP → MAC mapping (Host Discovery)
+* Generates ARP replies (Proxy ARP)
+* Controls communication between hosts
 
-Test Scenarios & Functional Validation As per the project requirements, the following scenarios demonstrate the working behavior:
-Scenario 1: Normal Operation (Success) Condition: POX controller is running arp_handler.py.
+---
 
-Observation: The controller logs "Learned mapping" and "Proxying ARP reply".
+## ⚙️ Features Implemented
 
-Result: pingall succeeds with 0% packet loss.
+### 1. Intercept ARP Packets
 
-Proof:
-<img width="1058" height="986" alt="Screenshot 2026-04-10 092033" src="https://github.com/user-attachments/assets/5509e878-8515-4718-985f-d355324ac222" />
+Controller captures ARP requests using Packet-In.
+
+### 2. Generate ARP Responses
+
+Controller sends ARP reply instead of broadcast.
+
+### 3. Host Discovery
+
+Controller maintains ARP table (IP → MAC).
+
+### 4. Validate Communication
+
+Ping is used to verify communication.
+
+---
+
+## 🚀 How to Run
+
+### 🔹 Terminal 1 (Controller)
+<img width="615" height="458" alt="image" src="https://github.com/user-attachments/assets/3d006d47-362b-438d-9e03-1ec1ce13adfa" />
+
+
+
+### 🔹 Terminal 2 (Mininet)
+<img width="854" height="492" alt="image" src="https://github.com/user-attachments/assets/a01aa8a8-e8e2-493a-b899-50e2d16b7980" />
+<img width="591" height="497" alt="image" src="https://github.com/user-attachments/assets/6ead7a19-c2dc-4f16-ad4c-659410de8709" />
+
+
+
+
+
+---
+
+
+## 🧠 Conclusion
+
+This project demonstrates how an SDN controller centrally manages ARP communication, reducing broadcast traffic and improving network control.
+
+---
+
+## 🎓 Viva Points
+
+* ARP converts IP to MAC address
+* Packet-In sends unknown packets to controller
+* Controller performs ARP handling
+* SDN provides centralized control
+
+---
+
+## 📌 Author
+
+Abhishek PH
